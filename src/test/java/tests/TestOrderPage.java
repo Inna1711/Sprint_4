@@ -3,6 +3,7 @@ package tests;
 import locators.MainPage;
 import locators.OrderPage;
 import models.OrderInput;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -67,6 +68,8 @@ public class TestOrderPage {
         OrderPage orderPOM = new OrderPage(driver);
         orderPOM.fillClientPage(input);
         orderPOM.clickNextButton();
+        orderPOM.fillOrderPage(input);
+        orderPOM.clickOrderButton();
     }
 
     @Test

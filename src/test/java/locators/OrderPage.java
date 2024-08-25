@@ -19,7 +19,7 @@ public class OrderPage {
     private final By phoneNumberInput = By.xpath("//input[@placeholder='* Телефон: на него позвонит курьер']");
 
     private final By orderDateInput = By.xpath("//input[@placeholder='* Когда привезти самокат']");
-    private final By orderPeriodInput = By.xpath("//div[text()='* Срок аренды']");
+    private final By orderPeriodInput = By.xpath("//div[@class='Dropdown-root Order_FilledDate__1pb8n']");
     private final By colourBlackCheckbox = By.xpath("//*[@id='black']");
     private final By colourGreyCheckbox = By.xpath("//input[@class='Checkbox_Input__14A2w' and @id='grey']");
     private final By orderCommentInput = By.xpath("//input[@placeholder='Комментарий для курьера']");
@@ -47,8 +47,9 @@ public class OrderPage {
 
     private void fillMetro(String metroStation){
         WebElement metroInputElement = driver.findElement(metroInput);
-        metroInputElement.sendKeys(metroStation);
-        ((JavascriptExecutor)driver).executeScript(String.format("arguments[0].setAttribute('value','%s')", metroStation), metroInputElement);
+        metroInputElement.click();
+        WebElement metroStationDropdown = driver.findElement(By.xpath(String.format(".//div[text()='%s']", metroStation)));
+        metroStationDropdown.click();
     }
 
     private void fillPhone(String phoneNumber){
@@ -60,12 +61,13 @@ public class OrderPage {
     }
 
     private void fillOrderPeriod(String period){
-        driver.findElement(orderPeriodInput).sendKeys(period);
+        driver.findElement(orderPeriodInput).click();
+        driver.findElement(By.xpath(String.format(".//div[text()='%s']", period))).click();
     }
 
     private void fillColour(String colour){
         if (Objects.equals(colour, "black")){
-             driver.findElement(colourBlackCheckbox).click();
+            driver.findElement(colourBlackCheckbox).click();
         } else {
             driver.findElement(colourGreyCheckbox).click();
         }
@@ -95,7 +97,7 @@ public class OrderPage {
 
     public void fillOrderPage(OrderInput input){
         fillOrderDate(input.Date);
-        fillOrderPeriod(input.Duration);
+        //fillOrderPeriod(input.Duration);
         fillColour(input.Colour);
         fillComments(input.Comment);
     }
