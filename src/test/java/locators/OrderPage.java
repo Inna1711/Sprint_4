@@ -61,7 +61,7 @@ public class OrderPage {
     }
 
     private void fillOrderPeriod(String period){
-        driver.findElement(orderPeriodInput).click();
+        driver.findElement(By.className("Dropdown-arrow")).click();
         driver.findElement(By.xpath(String.format(".//div[text()='%s']", period))).click();
     }
 
@@ -97,7 +97,7 @@ public class OrderPage {
 
     public void fillOrderPage(OrderInput input){
         fillOrderDate(input.Date);
-        //fillOrderPeriod(input.Duration);
+        fillOrderPeriod(input.Duration);
         fillColour(input.Colour);
         fillComments(input.Comment);
     }
