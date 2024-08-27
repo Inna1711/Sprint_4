@@ -47,7 +47,7 @@ public class TestMainPage {
     @Test
     public void testImportantItems(){
         MainPage mainPOM = new MainPage(driver);
-        assertEquals("Текст под раскрывающися полям некорректен!", validText, mainPOM.getHiddenImportantItemTextByOrderNum(orderNum));
+        assertEquals("Текст под раскрывающимся полем некорректен!", validText, mainPOM.getHiddenImportantItemTextByOrderNum(orderNum));
     }
 
     @After
