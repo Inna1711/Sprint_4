@@ -2,18 +2,19 @@ package tests;
 
 import locators.MainPage;
 import locators.OrderPage;
+import models.Constants;
 import models.OrderInput;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
-import utils.CookieKiller;
 import utils.TestSetup;
 
 
 @RunWith(Parameterized.class)
 public class TestOrderPage {
+    private WebDriver driver;
     private final String name;
     private final String lastName;
     private final String address;
@@ -46,14 +47,20 @@ public class TestOrderPage {
         this.comment = comment;
     }
 
+    public void setup(String url){
+        driver = TestSetup.setupDriver(url);
+        MainPage.closeCookie(driver);
+    }
+
     @Parameterized.Parameters
-    public static Object[][] getImportantItems() {
-        return new Object[][]{
+    public static String[][] getImportantItems() {
+        return new String[][]{
                 {"Кек", "Лол", "Бульвар рофлов д.1", "Бульвар Рокоссовского", "111111111111", "25.08.2024", "сутки", "black", "Трололо"},
                 {"Лол", "Кек", "Бульвар рофлов д.101", "Охотный Ряд", "211111111112", "27.08.2024", "двое суток", "grey", "Олололо"},
         };
     }
-    public void orderTest(WebDriver driver){
+
+    public void orderTest(){
         OrderInput input = new OrderInput(
                 name,
                 lastName,
@@ -74,29 +81,28 @@ public class TestOrderPage {
 
     @Test
     public void checkOrderCreate(){
-        WebDriver driver = TestSetup.setupDriver("https://qa-scooter.praktikum-services.ru/order");
-        CookieKiller.CloseCookie(driver);
-        orderTest(driver);
-        driver.quit();
+        setup(Constants.testWebsiteOrderUrl);
+        orderTest();
     }
 
     @Test
     public void checkOrderFromLowerButton(){
-        WebDriver driver = TestSetup.setupDriver("https://qa-scooter.praktikum-services.ru/");
+        setup(Constants.testWebsiteUrl);
         MainPage mainPOM = new MainPage(driver);
-        CookieKiller.CloseCookie(driver);
         mainPOM.clickLowerOrderButton();
-        orderTest(driver);
-        driver.quit();
+        orderTest();
     }
 
     @Test
     public void checkCreateOrderFromUpperButton(){
-        WebDriver driver = TestSetup.setupDriver("https://qa-scooter.praktikum-services.ru/");
+        setup(Constants.testWebsiteUrl);
         MainPage mainPOM = new MainPage(driver);
-        CookieKiller.CloseCookie(driver);
         mainPOM.clickUpperOrderButton();
-        orderTest(driver);
+        orderTest();
+    }
+
+    @After
+    public void tearDown(){
         driver.quit();
     }
 }

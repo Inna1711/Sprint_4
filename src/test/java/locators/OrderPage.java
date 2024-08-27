@@ -2,7 +2,6 @@ package locators;
 
 import models.OrderInput;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,7 +18,6 @@ public class OrderPage {
     private final By phoneNumberInput = By.xpath("//input[@placeholder='* Телефон: на него позвонит курьер']");
 
     private final By orderDateInput = By.xpath("//input[@placeholder='* Когда привезти самокат']");
-    private final By orderPeriodInput = By.xpath("//div[@class='Dropdown-root Order_FilledDate__1pb8n']");
     private final By colourBlackCheckbox = By.xpath("//*[@id='black']");
     private final By colourGreyCheckbox = By.xpath("//input[@class='Checkbox_Input__14A2w' and @id='grey']");
     private final By orderCommentInput = By.xpath("//input[@placeholder='Комментарий для курьера']");
@@ -88,18 +86,18 @@ public class OrderPage {
     }
 
     public void fillClientPage(OrderInput input){
-        fillName(input.Name);
-        fillLastName(input.LastName);
-        fillAddress(input.Address);
-        fillMetro(input.MetroStation);
-        fillPhone(input.PhoneNumber);
+        fillName(input.getName());
+        fillLastName(input.getLastName());
+        fillAddress(input.getAddress());
+        fillMetro(input.getMetroStation());
+        fillPhone(input.getPhoneNumber());
     }
 
     public void fillOrderPage(OrderInput input){
-        fillOrderDate(input.Date);
-        fillOrderPeriod(input.Duration);
-        fillColour(input.Colour);
-        fillComments(input.Comment);
+        fillOrderDate(input.getDate());
+        fillOrderPeriod(input.getDuration());
+        fillColour(input.getColour());
+        fillComments(input.getComment());
     }
 
 }

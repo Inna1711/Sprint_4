@@ -1,17 +1,51 @@
 package models;
 
-import javax.naming.Name;
-
 public class OrderInput {
-    public String Name;
-    public String LastName;
-    public String Address;
-    public String MetroStation;
-    public String PhoneNumber;
-    public String Date;
-    public String Duration;
-    public String Colour;
-    public String Comment;
+    private final String name;
+    private final String  lastName;
+    private final String  address;
+    private final String  metroStation;
+    private final String  phoneNumber;
+    private final String  date;
+    private final String  duration;
+    private final String  colour;
+    private final String  comment;
+
+    public String getName(){
+        return name;
+    }
+
+    public String getLastName(){
+        return lastName;
+    }
+
+    public String getAddress(){
+        return address;
+    }
+
+    public String getMetroStation(){
+        return metroStation;
+    }
+
+    public String getPhoneNumber(){
+        return phoneNumber;
+    }
+
+    public String getDate(){
+        return date;
+    }
+
+    public String getDuration(){
+        return duration;
+    }
+
+    public String getColour(){
+        return colour;
+    }
+
+    public String getComment(){
+        return comment;
+    }
 
     public OrderInput(
             String name,
@@ -24,14 +58,14 @@ public class OrderInput {
             String colour,
             String comment
     ){
-        this.Name = name;
-        this.LastName = lastName;
-        this.Address = address;
-        this.MetroStation = metroStation;
-        this.PhoneNumber = phoneNumber;
-        this.Date = date;
-        this.Duration = duration;
-        this.Colour = colour;
-        this.Comment = comment;
+        this.name = name;
+        this.lastName = lastName;
+        this.address = address;
+        this.metroStation = metroStation;
+        this.phoneNumber = phoneNumber;
+        this.date = date;
+        this.duration = duration;
+        this.colour = colour;
+        this.comment = comment;
     }
 }

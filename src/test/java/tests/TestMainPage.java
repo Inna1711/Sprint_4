@@ -1,24 +1,33 @@
 package tests;
 
 import locators.MainPage;
+import models.Constants;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 
-import utils.CookieKiller;
 import utils.TestSetup;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class TestMainPage {
+    private WebDriver driver;
     private final int orderNum;
     private final String validText;
 
     public TestMainPage(int orderNum, String validText) {
         this.orderNum = orderNum;
         this.validText = validText;
+    }
+
+    @Before
+    public void setup(){
+        driver = TestSetup.setupDriver(Constants.testWebsiteUrl) ;
+        MainPage.closeCookie(driver);
     }
 
     @Parameterized.Parameters
@@ -36,11 +45,13 @@ public class TestMainPage {
         };
     }
     @Test
-    public void TestImportantItems(){
-        WebDriver driver = TestSetup.setupDriver("https://qa-scooter.praktikum-services.ru/");
+    public void testImportantItems(){
         MainPage mainPOM = new MainPage(driver);
-        CookieKiller.CloseCookie(driver);
-        assertEquals(mainPOM.getHiddenImportantItemTextByOrderNum(orderNum), validText);
+        assertEquals("Текст под раскрывающися полям некорректен!", validText, mainPOM.getHiddenImportantItemTextByOrderNum(orderNum));
+    }
+
+    @After
+    public void tearDown(){
         driver.quit();
     }
 }
