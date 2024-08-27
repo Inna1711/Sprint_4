@@ -47,7 +47,7 @@ public class TestOrderPage {
         this.comment = comment;
     }
 
-    public void setup(String url){
+    private void setup(String url){
         driver = TestSetup.setupDriver(url);
         MainPage.closeCookie(driver);
     }
