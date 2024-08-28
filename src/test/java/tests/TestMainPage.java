@@ -26,12 +26,12 @@ public class TestMainPage {
 
     @Before
     public void setup(){
-        driver = TestSetup.setupDriver(Constants.testWebsiteUrl) ;
+        driver = TestSetup.setupDriver(Constants.TEST_WEBSITE_URL, "chrome") ;
         MainPage.closeCookie(driver);
     }
 
     @Parameterized.Parameters
-    public static Object[][] getImportantItems() {
+    public static Object[][] getFAQ() {
         return new Object[][]{
                 {0, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
                 {1, "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
@@ -45,7 +45,7 @@ public class TestMainPage {
         };
     }
     @Test
-    public void testImportantItems(){
+    public void testFAQ(){
         MainPage mainPOM = new MainPage(driver);
         assertEquals("Текст под раскрывающимся полем некорректен!", validText, mainPOM.getHiddenImportantItemTextByOrderNum(orderNum));
     }

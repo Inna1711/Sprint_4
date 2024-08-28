@@ -3,11 +3,13 @@ package locators;
 import models.OrderInput;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class OrderPage {
     private final WebDriver driver;
@@ -17,15 +19,14 @@ public class OrderPage {
     private final By metroInput = By.xpath("//input[@placeholder='* Станция метро']");
     private final By phoneNumberInput = By.xpath("//input[@placeholder='* Телефон: на него позвонит курьер']");
 
-    private final By orderDateInput = By.xpath("//input[@placeholder='* Когда привезти самокат']");
+    private final By orderDateInput = By.className("react-datepicker__input-container");
+    private final By orderPeriodInput = By.className("Dropdown-arrow");
     private final By colourBlackCheckbox = By.xpath("//*[@id='black']");
     private final By colourGreyCheckbox = By.xpath("//input[@class='Checkbox_Input__14A2w' and @id='grey']");
     private final By orderCommentInput = By.xpath("//input[@placeholder='Комментарий для курьера']");
 
-
-
     private final By nextButton = By.xpath("//button[text()='Далее']");
-    private final By orderButton = By.xpath("//button[text()='Заказать']");
+    private final By orderNavigationButtons = By.className("Button_Middle__1CSJM");
 
     public OrderPage(WebDriver driver){
         this.driver = driver;
@@ -55,11 +56,12 @@ public class OrderPage {
     }
 
     private void fillOrderDate(String date){
-        driver.findElement(orderDateInput).sendKeys(date);
+        driver.findElement(orderDateInput).click();
+        driver.findElement(By.xpath(String.format("//div[text()='%s']", date))).click();
     }
 
     private void fillOrderPeriod(String period){
-        driver.findElement(By.className("Dropdown-arrow")).click();
+        driver.findElement(orderPeriodInput).click();
         driver.findElement(By.xpath(String.format(".//div[text()='%s']", period))).click();
     }
 
@@ -75,14 +77,29 @@ public class OrderPage {
         driver.findElement(orderCommentInput).sendKeys(comment);
     }
 
+    private WebElement getOrderButton() {
+        Optional<WebElement> orderButton = driver.findElements(orderNavigationButtons).stream().filter(e -> e.getText().equals("Заказать")).findFirst();
+        return orderButton.orElse(null);
+    }
+
     public void clickNextButton(){
         driver.findElement(nextButton).click();
         new WebDriverWait(driver, 3)
-                .until(ExpectedConditions.elementToBeClickable(orderButton));
+                .until(ExpectedConditions.elementToBeClickable(getOrderButton()));
     }
 
     public void clickOrderButton(){
-        driver.findElement(orderButton).click();
+        getOrderButton().click();
+        driver.findElement(By.xpath("//button[text()='Да']")).click();
+    }
+
+    public boolean isOrderCreated(){
+        try {
+            return driver.findElement(By.xpath("//div[text()='Заказ оформлен']")).getText().contains("Заказ оформлен");
+        }
+        catch (WebDriverException e){
+            return false;
+        }
     }
 
     public void fillClientPage(OrderInput input){
